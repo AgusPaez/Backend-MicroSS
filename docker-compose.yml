@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db-products:
+    container_name: db-final-proyect-products
+    image: postgres:15.2
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: db-final-proyect-products
+      POSTGRES_USER: java
+      POSTGRES_PASSWORD: java
+    ports:
+      - 5431:5431
+    expose:
+      - 5431
+    command:
+      -p 5431
+
+
+  db-orders:
+      container_name: db-final-proyect-orders
+      image: postgres:15.2
+      restart: unless-stopped
+      environment:
+        POSTGRES_DB: db-final-proyect-orders
+        POSTGRES_USER: java
+        POSTGRES_PASSWORD: java
+      ports:
+        - 3000:3000
+      expose:
+        - 3000
+      command:
+        -p 3000
