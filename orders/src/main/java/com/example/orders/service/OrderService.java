@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OrderService {
+    private final RestTemplate restTemplate = new RestTemplate();
     @Autowired
+
     private OrderRepository orderRepository;
 
     // Método para obtener todas las órdenes
@@ -27,9 +32,25 @@ public class OrderService {
     }
 
     // Método para crear una nueva orden
-    public Order createOrder(Order order) {
-        return orderRepository.save(order);
+    public ResponseEntity<Object> newOrder(Order order) {
+        Long productId = order.getProductId();
+        String url = "http://localhost:8083/products/find/" + productId;
+        try {
+            ResponseEntity<Object> response = restTemplate.getForEntity(url, Object.class);
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                // Producto encontrado, guardar la orden
+                orderRepository.save(order);
+                return new ResponseEntity<>("Order created !", HttpStatus.CREATED);
+            } else {
+                // Producto no encontrado, no guardar la orden
+                return new ResponseEntity<>("Product not found, order not created", HttpStatus.NOT_FOUND);
+            }
+        } catch (HttpClientErrorException.NotFound ex) {
+            return new ResponseEntity<>("Product not found, order not created", HttpStatus.NOT_FOUND);
+        }
     }
+
 
     // Método para eliminar una orden por su ID
     public ResponseEntity<Object> deleteOrderById(Long orderId) {

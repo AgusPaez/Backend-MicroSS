@@ -37,18 +37,18 @@ public class OrderController {
 
     // Método para crear una nueva orden
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> createOrder(@Valid @RequestBody Order order, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getAllErrors().stream()
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object>newOrder (@Valid @RequestBody Order order, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            //Manejo de errores
+            List <String> errors = bindingResult.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.toList());
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        } else {
-            Order createdOrder = orderService.createOrder(order);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
         }
+        return orderService.newOrder(order);
     }
+
 
     // Método para eliminar una orden por su ID
     @DeleteMapping("/{orderId}")

@@ -32,10 +32,10 @@ public class ProductController {
     }
 
     // Método para traer un producto por ID
-    @GetMapping("/{productId}")
-    public Product getProductById(@PathVariable Long productId) {
-        return productService.getProductById(productId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+    @GetMapping("/find/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> findByIdProduct(@PathVariable("id") Long id) {
+        return productService.findByIdProduct(id);
     }
 
     // Método para crear un producto
@@ -66,4 +66,5 @@ public class ProductController {
     public void updateProduct(@PathVariable Long productId, @RequestBody Product product) {
         this.productService.updateProduct(productId, product);
     }
+
 }

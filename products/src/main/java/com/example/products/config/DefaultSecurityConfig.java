@@ -28,9 +28,10 @@ public class DefaultSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.GET, "/products").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/find/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/products").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/products").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "products").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/products").authenticated()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());

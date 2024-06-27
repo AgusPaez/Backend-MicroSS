@@ -22,8 +22,14 @@ public class ProductService {
     }
 
     // Método para obtener un producto por su ID
-    public Optional<Product> getProductById(Long productId) {
-        return productRepository.findById(productId);
+    public ResponseEntity<Object> findByIdProduct(Long id) {
+        Optional<Product> existingProductOptional = productRepository.findById(id);
+        if (existingProductOptional.isPresent()) {
+            Product existingProduct = existingProductOptional.get();
+            return new ResponseEntity<>(existingProduct, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     // Método para crear un producto
@@ -59,4 +65,5 @@ public class ProductService {
             throw new IllegalArgumentException("No se encontró el producto con el ID proporcionado");
         }
     }
+
 }
