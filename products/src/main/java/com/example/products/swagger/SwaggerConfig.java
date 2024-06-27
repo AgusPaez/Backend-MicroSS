@@ -30,14 +30,15 @@ public class SwaggerConfig {
                                         .summary("Agregar un producto")
                                         .description("Endpoint para agregar un nuevo producto.")))
                         .addPathItem("/products/{productId}", new io.swagger.v3.oas.models.PathItem()
-                                .get(new Operation()
-                                        .summary("Obtener producto por ID")
-                                        .description("Endpoint para obtener un producto específico por su ID."))
                                 .put(new Operation()
                                         .summary("Actualizar producto por ID")
                                         .description("Endpoint para actualizar un producto por su ID."))
                                 .delete(new Operation()
                                         .summary("Eliminar producto por ID")
-                                        .description("Endpoint para eliminar un producto por su ID."))));
+                                        .description("Endpoint para eliminar un producto por su ID.")))
+                        .addPathItem("/products/find/{id}", new io.swagger.v3.oas.models.PathItem()
+                                .get(new Operation()
+                                        .summary("Obtener producto por ID")
+                                        .description("Endpoint para obtener un producto específico por su ID."))));
     }
 }
