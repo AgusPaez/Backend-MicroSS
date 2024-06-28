@@ -16,13 +16,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        var usuario = getById(username); // Busca el usuario por nombre de usuario.
+        var usuario = getById(username); // busca el user
 
         if (usuario == null) {
-            throw new UsernameNotFoundException(username); // Si el usuario no se encuentra, lanza una excepción.
+            throw new UsernameNotFoundException(username); // error si no se encuentra
         }
 
-        return User // Construye y retorna un objeto UserDetails con los datos del usuario.
+        return User // construye userDetail
                 .withUsername(username)
                 .password(usuario.password())
                 .roles(usuario.roles().toArray(new String[0]))
@@ -31,20 +31,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public record Usuario(String username, String password, Set<String> roles) {};
 
-    /********** BÚSQUEDA DE USUARIO POR ID **********/
+    // trae user
     public static Usuario getById(String username) {
 
-        var password = "$2a$10$NNyC2luXbuKnoSOiyHTubeeQAYgwo5mmZzrw/Yd20RGDFbsyq4XYe"; // Contraseña encriptada del usuario.
+        var password = "$2a$10$NNyC2luXbuKnoSOiyHTubeeQAYgwo5mmZzrw/Yd20RGDFbsyq4XYe";
 
         Usuario user = new Usuario(
                 "user",
                 password,
-                Set.of("USER") // Crea un usuario de ejemplo.
+                Set.of("USER") // crea un usuario de ejemplo
         );
 
-        var usuarios = List.of(user); // Lista de usuarios.
+        var usuarios = List.of(user); // lista de usuarios
 
-        return usuarios  // Busca y retorna el usuario que coincide con el nombre de usuario.
+        return usuarios  // Busca y retorna el usuario que coincide con el nombre de usuario
                 .stream()
                 .filter(e -> e.username().equals(username))
                 .findFirst()

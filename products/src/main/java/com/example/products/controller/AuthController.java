@@ -30,10 +30,10 @@ public class AuthController {
     private JwtUtilService jwtUtilService;
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-    /********** METODO PARA MANEJAR SOLICITUDES DE AUTENTICACIÓN**********/
+    // maneja las solicitudes de auth
     @PostMapping("/authenticate")
     public ResponseEntity<TokenInfo> authenticate(@RequestBody AuthenticationReq authenticationReq) {
-        logger.info("Autenticando al usuario {}", authenticationReq.getUsuario());
+        logger.info("Autenticando {}", authenticationReq.getUsuario());
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationReq.getUsuario(), authenticationReq.getClave()));
 

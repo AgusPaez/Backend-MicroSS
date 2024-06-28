@@ -29,7 +29,7 @@ public class OrderController {
     }
 
     // Método para obtener una orden por su ID
-    @GetMapping("/{orderId}")
+    @GetMapping("/find/{orderId}")
     public Order getOrderById(@PathVariable Long orderId) {
         return orderService.getOrderById(orderId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Orden no encontrada"));

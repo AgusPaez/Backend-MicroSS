@@ -46,13 +46,12 @@ public class DefaultSecurityConfig {
         return http.build();
     }
 
-    /********** METODO PARA GESTIONAR AUTENTICACIÓN **********/
+    // gestiona la auth
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    /********** METODO DE CIFRARDO MEDIANTE BCRYPT **********/
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

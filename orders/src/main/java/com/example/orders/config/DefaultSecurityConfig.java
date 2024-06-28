@@ -32,9 +32,10 @@ public class DefaultSecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/authenticate").permitAll()
                         .requestMatchers(HttpMethod.GET, "/orders").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/orders/find/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/orders").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/orders/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/orders/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/orders").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/orders").authenticated()
                         .anyRequest().authenticated()
                 )
                 .cors(withDefaults())
@@ -46,13 +47,13 @@ public class DefaultSecurityConfig {
         return http.build();
     }
 
-    /********** METODO PARA GESTIONAR AUTENTICACIÓN **********/
+    // gestiona la auth
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    /********** METODO DE CIFRARDO MEDIANTE BCRYPT **********/
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
